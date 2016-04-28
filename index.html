@@ -1,0 +1,129 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Statistics Page - Homework 3</title>
+
+  <link rel="stylesheet" href="Styles/bootstrap.min.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head> 
+
+<body class="page" id="top"> 
+
+  <div class="container">
+    <header>
+      <h1>Statistics Page - Homework 3</h1>
+    </header>
+
+    <form class="form" role="form">
+      <div class="form-group">
+        <label for="form-input">Enter numbers or text:</label>
+        <textarea class="form-control" id="form-input" multiple></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-default" onclick="addText(); return false;">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button type="reset" class="btn" onclick="reset2();">Reset</button>
+    </form>
+  </div>
+
+  <div class="container">
+      <h3>The Numbers</h3>
+
+      <div class="col-xs-2">Count:</div>
+      <div class="col-xs-10" id="count">0</div>
+
+      <div class="col-xs-2">Sum:</div>
+      <div class="col-xs-10" id="sum">0</div>
+
+      <div class="col-xs-2">Average:</div>
+      <div class="col-xs-10" id="average">0</div>
+  </div>
+
+  <div class="container">
+    <h3>The Strings</h3>
+
+    <div class="col-xs-2">Count:</div>
+    <div class="col-xs-10" id="countStr">0</div>
+
+    <div class="col-xs-2">Concatenated:</div>
+    <div class="col-xs-10" id="concat-text">&nbsp;</div>
+  </div>
+
+  <div class="container">
+    <h3>The Arrays</h3>
+
+    <div class="col-xs-8">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="col-xs-6">Word</th>
+            <th class="col-xs-2">Count</th>
+          </tr>
+        </thead>
+        <tbody id="word-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <script>
+    var n = 0.0;
+    var sum = 0.0;
+    var nText = 0.0;
+    var concatText = "";
+    var wordList = {};
+
+    function addText() {
+      var x = $("#form-input").val();
+
+      if ($.isNumeric(x)) {
+        n++;
+        sum += Number(x);
+        $("#count").text(n);
+        $("#sum").text(sum);
+        $("#average").text(sum / n);
+      } else {
+        nText++;
+        concatText += (x + " ");
+        $("#countStr").text(nText);
+        $("#concat-text").text(concatText);
+
+        var words = x.split(" ");
+        for (var i in words) {
+          if (wordList[words[i]] == null)
+            wordList[words[i]] = 1;
+          else
+            wordList[words[i]]++;
+        }
+
+        var html = "";
+        for (var key in wordList) {
+          html += "<tr>" +
+            "<td>" + key + "</td>" +
+            "<td>" + wordList[key] + "</td>" +
+            "</tr>"
+        }
+        $("#word-list").html(html);
+      }
+    }
+
+    function reset2() {
+      n = 0.0;
+      sum = 0.0;
+      $("#count").text('0');
+      $("#sum").text('0');
+      $("#average").text('0');
+      nText = 0;
+      concatText = "";
+      $("#countStr").text(nText);
+      $("#concat-text").text(concatText);
+      wordList = {};
+      $("#word-list").text("");
+    }
+  </script>
+
+</body>
+</html>
